@@ -14,8 +14,11 @@ struct TodoAppApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            let service = CoreDataAuthService()
+            let authViewModel = AuthViewModel(service: service)
+            AuthView(viewModel: authViewModel)
+//            ContentView()
+//                .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
 }
