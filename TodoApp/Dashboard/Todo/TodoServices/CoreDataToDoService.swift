@@ -9,6 +9,7 @@
 import CoreData
 import Combine
 
+/// Core Data-backed implementation of `ToDoServiceProtocol` using an in-memory model.
 final class CoreDataToDoService: ToDoServiceProtocol {
     private let persistentContainer: NSPersistentContainer
     private let context: NSManagedObjectContext
@@ -16,6 +17,7 @@ final class CoreDataToDoService: ToDoServiceProtocol {
     @Published private var todos: [ToDoItem] = []
     var todosPublisher: AnyPublisher<[ToDoItem], Never> { $todos.eraseToAnyPublisher() }
         
+    /// Initializes an in-memory Core Data stack and prepares the `ToDoEntity` schema.
     init() {
         let model = NSManagedObjectModel()
         
@@ -74,6 +76,7 @@ final class CoreDataToDoService: ToDoServiceProtocol {
         context = persistentContainer.viewContext
     }
 
+    /// Fetches all todos from Core Data, sorted by date ascending.
     func fetchToDos() async throws {
         let request = NSFetchRequest<ToDoEntity>(entityName: "ToDoEntity")
         request.sortDescriptors = [NSSortDescriptor(key: "date", ascending: true)]
@@ -81,6 +84,7 @@ final class CoreDataToDoService: ToDoServiceProtocol {
         todos = results.map { $0.toDoItem() }
     }
 
+    /// Inserts a new `ToDoEntity` from the provided `ToDoItem` and saves.
     func addToDo(_ todo: ToDoItem) async throws {
         let entity = ToDoEntity(context: context)
         entity.update(from: todo)
@@ -88,6 +92,7 @@ final class CoreDataToDoService: ToDoServiceProtocol {
         try await fetchToDos()
     }
 
+    /// Finds an existing `ToDoEntity` by id and updates its fields.
     func updateToDo(_ todo: ToDoItem) async throws {
         let request = NSFetchRequest<ToDoEntity>(entityName: "ToDoEntity")
         request.predicate = NSPredicate(format: "id == %@", todo.id.uuidString)
@@ -98,6 +103,7 @@ final class CoreDataToDoService: ToDoServiceProtocol {
         }
     }
 
+    /// Deletes an existing `ToDoEntity` by id.
     func deleteToDo(_ todo: ToDoItem) async throws {
         let request = NSFetchRequest<ToDoEntity>(entityName: "ToDoEntity")
         request.predicate = NSPredicate(format: "id == %@", todo.id.uuidString)

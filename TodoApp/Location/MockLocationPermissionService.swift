@@ -8,15 +8,18 @@
 import CoreLocation
 import Combine
 
+/// Mock permission service that simulates granting permission.
 @MainActor
 final class MockLocationPermissionService: LocationPermissionServiceProtocol {
     @Published private(set) var authorizationStatus: CLAuthorizationStatus
     var authorizationStatusPublisher: Published<CLAuthorizationStatus>.Publisher { $authorizationStatus }
     
+    /// Creates a mock with an initial status.
     init(initialStatus: CLAuthorizationStatus = .notDetermined) {
         authorizationStatus = initialStatus
     }
     
+    /// Simulates a delayed grant of `.authorizedWhenInUse`.
     func requestPermission() {
         // Simulate user granting permission after request with a delay
         Task {
