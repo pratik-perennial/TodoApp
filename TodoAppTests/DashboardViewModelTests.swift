@@ -57,15 +57,17 @@ final class DashboardViewModelTests: XCTestCase {
         viewModel = DashboardViewModel(
             service: mockService,
             permissionService: mockLocationPermissionService,
-            weatherService: mockWeatherService
+            weatherService: mockWeatherService,
+            currentUserId: UUID()
         )
     }
 
     func testInitialFetchPopulatesTodos() {
         // Given initial todos
+        let u = UUID()
         let initialToDos = [
-            ToDoItem(title: "A", date: Date()),
-            ToDoItem(title: "B", date: Date()),
+            ToDoItem(userId: u, title: "A", date: Date()),
+            ToDoItem(userId: u, title: "B", date: Date()),
         ]
         mockService = MockToDoService(initialTodos: initialToDos)
 
@@ -73,7 +75,8 @@ final class DashboardViewModelTests: XCTestCase {
         viewModel = DashboardViewModel(
             service: mockService,
             permissionService: mockLocationPermissionService,
-            weatherService: mockWeatherService
+            weatherService: mockWeatherService,
+            currentUserId: u
         )
 
         // Then todos should be populated
@@ -93,7 +96,7 @@ final class DashboardViewModelTests: XCTestCase {
     }
 
     func testAddNewTodoAddsItem() {
-        let newToDo = ToDoItem(title: "New Task", date: Date())
+        let newToDo = ToDoItem(userId: UUID(), title: "New Task", date: Date())
         let expectation = XCTestExpectation(description: "Todo added")
 
         viewModel.$todos
@@ -112,16 +115,18 @@ final class DashboardViewModelTests: XCTestCase {
     }
 
     func testUpdateTodoUpdatesItem() {
-        let initialToDo = ToDoItem(title: "Old Task", date: Date())
+        let initialToDo = ToDoItem(userId: UUID(), title: "Old Task", date: Date())
         mockService = MockToDoService(initialTodos: [initialToDo])
         viewModel = DashboardViewModel(
             service: mockService,
             permissionService: mockLocationPermissionService,
-            weatherService: mockWeatherService
+            weatherService: mockWeatherService,
+            currentUserId: initialToDo.userId
         )
 
         let updatedToDo = ToDoItem(
             id: initialToDo.id,
+            userId: initialToDo.userId,
             title: "Updated Task",
             date: initialToDo.date
         )
@@ -143,12 +148,13 @@ final class DashboardViewModelTests: XCTestCase {
     }
 
     func testDeleteTodoRemovesItem() {
-        let todo = ToDoItem(title: "Delete Me", date: Date())
+        let todo = ToDoItem(userId: UUID(), title: "Delete Me", date: Date())
         mockService = MockToDoService(initialTodos: [todo])
         viewModel = DashboardViewModel(
             service: mockService,
             permissionService: mockLocationPermissionService,
-            weatherService: mockWeatherService
+            weatherService: mockWeatherService,
+            currentUserId: todo.userId
         )
 
         let expectation = XCTestExpectation(description: "Todo deleted")

@@ -8,11 +8,15 @@
 import SwiftUI
 import CoreData
 import Combine
+import Firebase
 
 @main
 struct TodoAppApp: App {
-    let persistenceController = PersistenceController.shared
     @State private var showSplash: Bool = true
+    
+    init() {
+        FirebaseApp.configure()
+    }
 
     var body: some Scene {
         WindowGroup {
@@ -34,8 +38,6 @@ struct TodoAppApp: App {
                         .transition(.opacity)
                 }
             }
-//            ContentView()
-//                .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
 }

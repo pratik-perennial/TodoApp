@@ -118,7 +118,7 @@ struct DashboardView: View {
             
             // Floating Action Button
             Button {
-                self.editingToDo = ToDoItem(title: "", date: Date())
+                self.editingToDo = ToDoItem(userId: currentUser.id, title: "", date: Date())
                 showingEditSheet = true
             } label: {
                 Image(systemName: "plus")
@@ -222,7 +222,7 @@ struct DashboardView: View {
 }
 
 #Preview {
-    DashboardView(viewModel: DashboardViewModel(service: MockToDoService(), permissionService: LocationPermissionService(), weatherService: WeatherAPIService()), currentUser: User(username: "Test", avatarData: nil))
+    DashboardView(viewModel: DashboardViewModel(service: MockToDoService(), permissionService: LocationPermissionService(), weatherService: WeatherAPIService(), currentUserId: User(username: "Test", avatarData: nil).id), currentUser: User(username: "Test", avatarData: nil))
 }
 
 enum ToDoFilter: String, CaseIterable, Identifiable {
