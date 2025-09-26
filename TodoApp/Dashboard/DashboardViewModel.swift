@@ -16,6 +16,7 @@ final class DashboardViewModel: ObservableObject {
     @Published var locationStatus: CLAuthorizationStatus = .notDetermined
     
     private let todoService: ToDoServiceProtocol
+    private let currentUserId: UUID
     private let weatherService: WeatherAPIServiceProtocol
     private let permissionService: LocationPermissionServiceProtocol
     
@@ -25,9 +26,10 @@ final class DashboardViewModel: ObservableObject {
         permissionService.requestPermission()
     }
     
-    init(service: ToDoServiceProtocol, permissionService: LocationPermissionServiceProtocol, weatherService: WeatherAPIServiceProtocol) {
+    init(service: ToDoServiceProtocol, permissionService: LocationPermissionServiceProtocol, weatherService: WeatherAPIServiceProtocol, currentUserId: UUID) {
         self.permissionService = permissionService
         self.todoService = service
+        self.currentUserId = currentUserId
         self.weatherService = weatherService
         
         permissionService.authorizationStatusPublisher
@@ -36,6 +38,7 @@ final class DashboardViewModel: ObservableObject {
         
         todoService.todosPublisher
             .receive(on: DispatchQueue.main)
+            .map { items in items.filter { $0.userId == self.currentUserId } }
             .assign(to: &$todos)
         Task {
             try? await todoService.fetchToDos()

@@ -30,6 +30,9 @@ struct DashboardView: View {
     private var filteredToDos: [ToDoItem] {
         let now = Date()
         switch selectedFilter {
+        case .all:
+            return viewModel.todos
+                .sorted { $0.date > $1.date }
         case .upcoming:
             return viewModel.todos.filter { !$0.isCompleted && $0.date >= now }
                 .sorted { $0.date < $1.date }
@@ -141,7 +144,7 @@ struct DashboardView: View {
             
             // Floating Action Button
             Button {
-                self.editingToDo = ToDoItem(title: "", date: Date())
+                self.editingToDo = ToDoItem(userId: currentUser.id, title: "", date: Date())
                 showingEditSheet = true
             } label: {
                 Image(systemName: "plus")
@@ -200,10 +203,11 @@ struct DashboardView: View {
 }
 
 #Preview {
-    DashboardView(viewModel: DashboardViewModel(service: MockToDoService(), permissionService: LocationPermissionService(), weatherService: WeatherAPIService()), currentUser: User(username: "Test", avatarData: nil))
+    DashboardView(viewModel: DashboardViewModel(service: MockToDoService(), permissionService: LocationPermissionService(), weatherService: WeatherAPIService(), currentUserId: User(username: "Test", avatarData: nil).id), currentUser: User(username: "Test", avatarData: nil))
 }
 
 enum ToDoFilter: String, CaseIterable, Identifiable {
+    case all = "All"
     case upcoming = "Upcoming"
     case past = "Past"
     case completed = "Completed"

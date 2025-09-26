@@ -19,6 +19,7 @@ extension ToDoEntity {
     }
 
     @NSManaged public var id: String?
+    @NSManaged public var userId: String?
     @NSManaged public var title: String?
     @NSManaged public var notes: String?
     @NSManaged public var date: Date?
@@ -30,6 +31,7 @@ extension ToDoEntity {
     func toDoItem() -> ToDoItem {
         ToDoItem(
             id: UUID(uuidString: id ?? "") ?? UUID(),
+            userId: UUID(uuidString: userId ?? "") ?? UUID(),
             title: title ?? "",
             notes: notes,
             date: date ?? Date(),
@@ -39,6 +41,7 @@ extension ToDoEntity {
     
     func update(from todo: ToDoItem) {
         id = todo.id.uuidString
+        userId = todo.userId.uuidString
         title = todo.title
         notes = todo.notes
         date = todo.date
