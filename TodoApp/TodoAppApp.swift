@@ -7,18 +7,20 @@
 
 import SwiftUI
 import CoreData
+import Firebase
 
 @main
 struct TodoAppApp: App {
-    let persistenceController = PersistenceController.shared
+    
+    init() {
+        FirebaseApp.configure()
+    }
 
     var body: some Scene {
         WindowGroup {
             let service = CoreDataAuthService()
             let authViewModel = AuthViewModel(service: service)
             AuthView(viewModel: authViewModel)
-//            ContentView()
-//                .environment(\.managedObjectContext, persistenceController.container.viewContext)
         }
     }
 }

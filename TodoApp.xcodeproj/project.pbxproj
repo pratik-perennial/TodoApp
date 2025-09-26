@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		309AA1DE2E867621009B2176 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 309AA1DD2E867621009B2176 /* FirebaseAnalytics */; };
+		309AA1E02E867621009B2176 /* FirebaseAnalyticsCore in Frameworks */ = {isa = PBXBuildFile; productRef = 309AA1DF2E867621009B2176 /* FirebaseAnalyticsCore */; };
+		309AA1E22E867621009B2176 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 309AA1E12E867621009B2176 /* FirebaseCore */; };
+		309AA1E42E867621009B2176 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 309AA1E32E867621009B2176 /* FirebaseCrashlytics */; };
 		30D45D0F2E862AD0000F344D /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 30D45D0E2E862AD0000F344D /* CombineMoya */; };
 /* End PBXBuildFile section */
 
@@ -56,6 +60,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				309AA1DE2E867621009B2176 /* FirebaseAnalytics in Frameworks */,
+				309AA1E02E867621009B2176 /* FirebaseAnalyticsCore in Frameworks */,
+				309AA1E42E867621009B2176 /* FirebaseCrashlytics in Frameworks */,
+				309AA1E22E867621009B2176 /* FirebaseCore in Frameworks */,
 				30D45D0F2E862AD0000F344D /* CombineMoya in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -118,6 +126,10 @@
 			name = TodoApp;
 			packageProductDependencies = (
 				30D45D0E2E862AD0000F344D /* CombineMoya */,
+				309AA1DD2E867621009B2176 /* FirebaseAnalytics */,
+				309AA1DF2E867621009B2176 /* FirebaseAnalyticsCore */,
+				309AA1E12E867621009B2176 /* FirebaseCore */,
+				309AA1E32E867621009B2176 /* FirebaseCrashlytics */,
 			);
 			productName = TodoApp;
 			productReference = 30D45BC32E84DA69000F344D /* TodoApp.app */;
@@ -204,6 +216,7 @@
 			packageReferences = (
 				30D45C202E851192000F344D /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
 				30D45D0D2E862AD0000F344D /* XCRemoteSwiftPackageReference "Moya" */,
+				309AA1DC2E867621009B2176 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 30D45BC42E84DA69000F344D /* Products */;
@@ -594,6 +607,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		309AA1DC2E867621009B2176 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.3.0;
+			};
+		};
 		30D45C202E851192000F344D /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SimplyDanny/SwiftLintPlugins";
@@ -613,6 +634,26 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		309AA1DD2E867621009B2176 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 309AA1DC2E867621009B2176 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		309AA1DF2E867621009B2176 /* FirebaseAnalyticsCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 309AA1DC2E867621009B2176 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsCore;
+		};
+		309AA1E12E867621009B2176 /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 309AA1DC2E867621009B2176 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		309AA1E32E867621009B2176 /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 309AA1DC2E867621009B2176 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
+		};
 		30D45D0E2E862AD0000F344D /* CombineMoya */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 30D45D0D2E862AD0000F344D /* XCRemoteSwiftPackageReference "Moya" */;
