@@ -65,8 +65,12 @@ struct DashboardView: View {
                     }
                     .background(Color(uiColor: .systemGroupedBackground))
                     
-                    if let weather = viewModel.currentWeather {
-                        CurrentWeatherView(weather: weather)
+                    Group {
+                        if let weather = viewModel.currentWeather {
+                            CurrentWeatherView(weather: weather)
+                        } else {
+                            CurrentWeatherShimmerCard()
+                        }
                     }
                     
                     List {
