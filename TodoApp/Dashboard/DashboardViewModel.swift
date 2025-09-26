@@ -10,6 +10,7 @@ import Combine
 import SwiftUI
 import CoreLocation
 
+/// View model for the dashboard screen. Coordinates todos, weather, and permissions.
 final class DashboardViewModel: ObservableObject {
     @Published private(set) var todos: [ToDoItem] = []
     @Published var currentWeather: WeatherResponse?
@@ -22,10 +23,12 @@ final class DashboardViewModel: ObservableObject {
     
     private var cancellables = Set<AnyCancellable>()
  
+    /// Requests location permissions from the permission service.
     func requestLocationPermission() {
         permissionService.requestPermission()
     }
     
+    /// Creates the view model and binds publishers for todos and location status.
     init(service: ToDoServiceProtocol, permissionService: LocationPermissionServiceProtocol, weatherService: WeatherAPIServiceProtocol, currentUserId: UUID) {
         self.permissionService = permissionService
         self.todoService = service
@@ -45,16 +48,20 @@ final class DashboardViewModel: ObservableObject {
         }
     }
     
+    /// Adds a new todo via the service.
     func addNewTodo(todo: ToDoItem) async {
         try? await todoService.addToDo(todo)
     }
+    /// Updates an existing todo via the service.
     func updateTodo(todo: ToDoItem) async {
         try? await todoService.updateToDo(todo)
     }
+    /// Deletes a todo via the service.
     func deleteTodo(todo: ToDoItem) async {
         try? await todoService.deleteToDo(todo)
     }
     
+    /// Fetches current weather for the provided coordinates and updates `currentWeather`.
     func loadWeather(latitude: Double, longitude: Double) {
         Task {
             do {

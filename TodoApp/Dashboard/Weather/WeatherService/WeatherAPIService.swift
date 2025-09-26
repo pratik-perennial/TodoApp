@@ -8,7 +8,9 @@
 
 import Foundation
 
+/// Live implementation of `WeatherAPIServiceProtocol` using the app's `NetworkManager`.
 final class WeatherAPIService: WeatherAPIServiceProtocol {
+    /// Fetches and decodes current weather for the given coordinates.
     func fetchCurrentWeather(latitude: Double, longitude: Double) async throws -> WeatherResponse {
         do {
             let weatherResponse = try await NetworkManager().fetchWeather(lat: latitude, long: longitude)

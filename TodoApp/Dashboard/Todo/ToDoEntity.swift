@@ -28,6 +28,7 @@ extension ToDoEntity {
 }
 
 extension ToDoEntity {
+    /// Converts the managed object into a value-type `ToDoItem`.
     func toDoItem() -> ToDoItem {
         ToDoItem(
             id: UUID(uuidString: id ?? "") ?? UUID(),
@@ -39,6 +40,8 @@ extension ToDoEntity {
         )
     }
     
+    /// Updates the managed object properties from a `ToDoItem`.
+    /// - Parameter todo: Source value object.
     func update(from todo: ToDoItem) {
         id = todo.id.uuidString
         userId = todo.userId.uuidString
