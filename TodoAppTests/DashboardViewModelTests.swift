@@ -19,12 +19,14 @@ final class DashboardViewModelTests: XCTestCase {
     var mockWeatherService: MockWeatherAPIService!
     var cancellables: Set<AnyCancellable>!
 
-    let sampleWeather = CurrentWeather(
-        temperature: 29.0,
-        windspeed: 20,
-        winddirection: 1.0,
-        weathercode: 1,
-        time: "",
+    let sampleWeather = WeatherResponse(
+        current_weather: CurrentWeather(
+            temperature: 29.0,
+            windspeed: 20,
+            winddirection: 1.0,
+            weathercode: 1,
+            time: ""
+        ),
         hourly: HourlyData(
             time: [
                 "2025-09-26T00:00", "2025-09-26T01:00", "2025-09-26T02:00",
@@ -198,17 +200,18 @@ extension DashboardViewModelTests {
         )
 
         // When
-        let weather = try await mockWeatherService.fetchCurrentWeather(
+        let weatherResponse = try await mockWeatherService.fetchCurrentWeather(
             latitude: 18.5,
             longitude: 73.8
         )
+        let weather = weatherResponse.current_weather
 
         // Then
-        XCTAssertEqual(weather.temperature, sampleWeather.temperature)
-        XCTAssertEqual(weather.windspeed, sampleWeather.windspeed)
-        XCTAssertEqual(weather.winddirection, sampleWeather.winddirection)
-        XCTAssertEqual(weather.weathercode, sampleWeather.weathercode)
-        XCTAssertEqual(weather.time, sampleWeather.time)
+        XCTAssertEqual(weather.temperature, sampleWeather.current_weather.temperature)
+        XCTAssertEqual(weather.windspeed, sampleWeather.current_weather.windspeed)
+        XCTAssertEqual(weather.winddirection, sampleWeather.current_weather.winddirection)
+        XCTAssertEqual(weather.weathercode, sampleWeather.current_weather.weathercode)
+        XCTAssertEqual(weather.time, sampleWeather.current_weather.time)
     }
 
     func testFetchCurrentWeatherNetworkError() async {

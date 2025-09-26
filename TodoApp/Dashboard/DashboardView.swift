@@ -30,6 +30,9 @@ struct DashboardView: View {
     private var filteredToDos: [ToDoItem] {
         let now = Date()
         switch selectedFilter {
+        case .all:
+            return viewModel.todos
+                .sorted { $0.date > $1.date }
         case .upcoming:
             return viewModel.todos.filter { !$0.isCompleted && $0.date >= now }
                 .sorted { $0.date < $1.date }
@@ -73,33 +76,7 @@ struct DashboardView: View {
                         }
                     }
                     
-                    List {
-                        ForEach(filteredToDos) { todo in
-                            Button {
-                                editingToDo = todo
-                                showingEditSheet = true
-                            } label: {
-                                HStack {
-                                    Image(systemName: todo.isCompleted ? "checkmark.circle.fill" : "circle")
-                                        .foregroundColor(todo.isCompleted ? .green : .secondary)
-                                    VStack(alignment: .leading) {
-                                        Text(todo.title)
-                                            .font(.headline)
-                                            .strikethrough(todo.isCompleted)
-                                        if let notes = todo.notes, !notes.isEmpty {
-                                            Text(notes)
-                                                .font(.caption)
-                                                .foregroundColor(.gray)
-                                        }
-                                        Text(todo.date, style: .date)
-                                            .font(.caption2)
-                                            .foregroundColor(.secondary)
-                                    }
-                                }
-                            }
-                        }
-                        .onDelete(perform: deleteToDos)
-                    }
+                    notesSection
                     .toolbar {
                         ToolbarItemGroup(placement: .navigationBarLeading) {
                             EditButton()
@@ -190,6 +167,51 @@ struct DashboardView: View {
         }
     }
     
+    @ViewBuilder
+    private var notesSection: some View {
+        if filteredToDos.isEmpty {
+            VStack(spacing: 12) {
+                Spacer(minLength: 24)
+                Image(systemName: "note.text")
+                    .font(.system(size: 48))
+                    .foregroundColor(.secondary)
+                Text("No notes yet")
+                    .font(.subheadline)
+                    .foregroundColor(.secondary)
+                Spacer(minLength: 24)
+            }
+            .frame(maxWidth: .infinity)
+        } else {
+            List {
+                ForEach(filteredToDos) { todo in
+                    Button {
+                        editingToDo = todo
+                        showingEditSheet = true
+                    } label: {
+                        HStack {
+                            Image(systemName: todo.isCompleted ? "checkmark.circle.fill" : "circle")
+                                .foregroundColor(todo.isCompleted ? .green : .secondary)
+                            VStack(alignment: .leading) {
+                                Text(todo.title)
+                                    .font(.headline)
+                                    .strikethrough(todo.isCompleted)
+                                if let notes = todo.notes, !notes.isEmpty {
+                                    Text(notes)
+                                        .font(.caption)
+                                        .foregroundColor(.gray)
+                                }
+                                Text(todo.date, style: .date)
+                                    .font(.caption2)
+                                    .foregroundColor(.secondary)
+                            }
+                        }
+                    }
+                }
+                .onDelete(perform: deleteToDos)
+            }
+        }
+    }
+
     private func deleteToDos(at offsets: IndexSet) {
         Task {
             for offset in offsets {
@@ -204,6 +226,7 @@ struct DashboardView: View {
 }
 
 enum ToDoFilter: String, CaseIterable, Identifiable {
+    case all = "All"
     case upcoming = "Upcoming"
     case past = "Past"
     case completed = "Completed"
