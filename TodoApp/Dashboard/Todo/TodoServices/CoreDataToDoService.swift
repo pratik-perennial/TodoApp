@@ -29,6 +29,11 @@ final class CoreDataToDoService: ToDoServiceProtocol {
         idAttr.name = "id"
         idAttr.attributeType = .stringAttributeType
         idAttr.isOptional = false
+
+        let userIdAttr = NSAttributeDescription()
+        userIdAttr.name = "userId"
+        userIdAttr.attributeType = .stringAttributeType
+        userIdAttr.isOptional = false
         
         let titleAttr = NSAttributeDescription()
         titleAttr.name = "title"
@@ -56,7 +61,7 @@ final class CoreDataToDoService: ToDoServiceProtocol {
         orderAttr.attributeType = .integer64AttributeType
         orderAttr.isOptional = true
         
-        entity.properties = [idAttr, titleAttr, notesAttr, dateAttr, completedAttr, orderAttr]
+        entity.properties = [idAttr, userIdAttr, titleAttr, notesAttr, dateAttr, completedAttr, orderAttr]
         
         model.entities = [entity]
         

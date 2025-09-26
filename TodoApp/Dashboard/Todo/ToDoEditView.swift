@@ -16,6 +16,7 @@ struct ToDoEditView: View {
     @State private var notes: String
     @State private var date: Date
     @State private var isCompleted: Bool
+    // userId comes from the provided todo and is preserved
 
     // Custom initializer to set @State initial values from todo
     init(
@@ -60,6 +61,7 @@ struct ToDoEditView: View {
                         onSave(
                             ToDoItem(
                                 id: todo.id,
+                                userId: todo.userId,
                                 title: title,
                                 notes: notes.isEmpty ? nil : notes,
                                 date: date,
@@ -77,6 +79,7 @@ struct ToDoEditView: View {
     ToDoEditView(
         todo: ToDoItem.init(
             id: UUID(),
+            userId: UUID(),
             title: "New Note",
             notes: nil,
             date: .init(),
