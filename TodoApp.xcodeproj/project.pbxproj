@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		30D45D0F2E862AD0000F344D /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 30D45D0E2E862AD0000F344D /* CombineMoya */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		30D45BD62E84DA6A000F344D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +56,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30D45D0F2E862AD0000F344D /* CombineMoya in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +117,7 @@
 			);
 			name = TodoApp;
 			packageProductDependencies = (
+				30D45D0E2E862AD0000F344D /* CombineMoya */,
 			);
 			productName = TodoApp;
 			productReference = 30D45BC32E84DA69000F344D /* TodoApp.app */;
@@ -197,6 +203,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				30D45C202E851192000F344D /* XCRemoteSwiftPackageReference "SwiftLintPlugins" */,
+				30D45D0D2E862AD0000F344D /* XCRemoteSwiftPackageReference "Moya" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 30D45BC42E84DA69000F344D /* Products */;
@@ -403,6 +410,8 @@
 				DEVELOPMENT_TEAM = 8B5AK67CNG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationUsageDescription = "App requires location access for weather tracking";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "App requires location access for weather tracking";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -435,6 +444,8 @@
 				DEVELOPMENT_TEAM = 8B5AK67CNG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSLocationUsageDescription = "App requires location access for weather tracking";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "App requires location access for weather tracking";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -591,7 +602,23 @@
 				minimumVersion = 0.61.0;
 			};
 		};
+		30D45D0D2E862AD0000F344D /* XCRemoteSwiftPackageReference "Moya" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Moya/Moya.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 15.0.3;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		30D45D0E2E862AD0000F344D /* CombineMoya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 30D45D0D2E862AD0000F344D /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = CombineMoya;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 30D45BBB2E84DA69000F344D /* Project object */;
 }

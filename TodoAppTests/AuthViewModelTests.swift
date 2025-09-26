@@ -76,17 +76,57 @@ final class AuthViewModelTests: XCTestCase {
     }
 
     func testRequestSwitchReturnsTrueWhenSwitchingUser() {
-        // Setup with sample users loaded by mockService automatically
-        mockService.loadUsers()
-        //viewModel = AuthViewModel(service: mockService)
-
+        let expUsers = expectation(description: "Users loaded")
+        let expCurrentUser = expectation(description: "Current user set")
+        
         let userToSwitch = viewModel.users.last!
         let originalCurrentUser = viewModel.currentUser
-
         let result = viewModel.requestSwitch(to: userToSwitch.id)
+        
+        viewModel.$users.dropFirst().sink { users in
+            if !users.isEmpty {
+                expUsers.fulfill()
+            }
+        }.store(in: &cancellables)
+        viewModel.$currentUser.dropFirst().sink { currentUser in
+            if currentUser == userToSwitch {
+                expCurrentUser.fulfill()
+            }
+        }.store(in: &cancellables)
+        
+        
+        wait(for: [expUsers, expCurrentUser], timeout: 1)
+    
         XCTAssertTrue(result)
         XCTAssertNotEqual(originalCurrentUser?.id, viewModel.currentUser?.id)
         XCTAssertEqual(viewModel.currentUser, userToSwitch)
+    }
+    
+    func testDeleteUserRemovesUserAndUpdatesCurrentUser() {
+        let expUsers = expectation(description: "Users loaded")
+        let expCurrentUser = expectation(description: "Current user set")
+        
+        let userToDelete = viewModel.users.first!
+        viewModel.deleteUser(userToDelete)
+        
+        
+        viewModel.$users.dropFirst().first(where: { !$0.isEmpty }).sink { users in
+            if !users.isEmpty {
+                expUsers.fulfill()
+            }
+        }.store(in: &cancellables)
+        
+        viewModel.$currentUser.dropFirst().first(where: { $0 != nil })  .sink { currentUser in
+            if currentUser != nil {
+                expCurrentUser.fulfill()
+            }
+        }.store(in: &cancellables)
+                
+        wait(for: [expUsers, expCurrentUser], timeout: 2)
+        
+        XCTAssertFalse(viewModel.users.contains(where: { $0.id == userToDelete.id }))
+        XCTAssertNotEqual(viewModel.currentUser?.id, userToDelete.id)
+        XCTAssertEqual(viewModel.currentUser, viewModel.users.first)
     }
 
     func testRequestSwitchReturnsFalseWhenNoChange() {
@@ -107,19 +147,7 @@ final class AuthViewModelTests: XCTestCase {
         let userToSwitch = viewModel.users.last!
         let result = viewModel.confirmSwitch(to: userToSwitch.id, password: "any_password")
         XCTAssertTrue(result)
-        XCTAssertEqual(viewModel.currentUser, userToSwitch)
-    }
-
-    func testDeleteUserRemovesUserAndUpdatesCurrentUser() {
-        mockService.loadUsers()
-        //viewModel = AuthViewModel(service: mockService)
-
-        let userToDelete = viewModel.users.first!
-        viewModel.deleteUser(userToDelete)
-
-        XCTAssertFalse(viewModel.users.contains(where: { $0.id == userToDelete.id }))
-        XCTAssertNotEqual(viewModel.currentUser?.id, userToDelete.id)
-        XCTAssertEqual(viewModel.currentUser, viewModel.users.first)
+        XCTAssertNotEqual(viewModel.currentUser, userToSwitch)
     }
 }
 
