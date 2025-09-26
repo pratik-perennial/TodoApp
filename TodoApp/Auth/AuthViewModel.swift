@@ -42,9 +42,6 @@ final class AuthViewModel: ObservableObject {
     func createUser(username: String, avatarData: Data?, password: String?) {
         if let password, !password.isEmpty {
             service.createUser(username: username, avatarData: avatarData, password: password)
-        } else {
-            // TODO:  Handle else 
-            //manager.createUser(username: username, avatarData: avatarData)
         }
     }
 

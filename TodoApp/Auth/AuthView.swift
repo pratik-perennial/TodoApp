@@ -109,7 +109,7 @@ struct AuthView: View {
         .sheet(isPresented: $showCreateSheet) { createUserSheet }
         .navigationBarBackButtonHidden(true)
         .fullScreenCover(isPresented: $navigateToDashboard) {
-            DashboardView(viewModel: DashboardViewModel(service: CoreDataToDoService()), currentUser: viewModel.currentUser!)
+            DashboardView(viewModel: DashboardViewModel(service: CoreDataToDoService(), permissionService: LocationPermissionService(), weatherService: WeatherAPIService()), currentUser: viewModel.currentUser!)
         }
     }
     
