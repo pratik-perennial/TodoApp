@@ -98,6 +98,12 @@ final class DashboardViewModelTests: XCTestCase {
     func testAddNewTodoAddsItem() {
         let newToDo = ToDoItem(userId: UUID(), title: "New Task", date: Date())
         let expectation = XCTestExpectation(description: "Todo added")
+        viewModel = DashboardViewModel(
+            service: mockService,
+            permissionService: mockLocationPermissionService,
+            weatherService: mockWeatherService,
+            currentUserId: newToDo.userId
+        )
 
         viewModel.$todos
             .dropFirst()
